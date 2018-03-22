@@ -1,16 +1,18 @@
 require 'gosu'
+WINDOW_HEIGHT = 1600
+WINDOW_WIDTH  = 1200
 
 class WhackACanoe < Gosu::Window
   def initialize
-    super(800, 600)
+    super(WINDOW_HEIGHT, WINDOW_WIDTH)
     self.caption = "Whack the Canoe!"
     @image = Gosu::Image.new("canoe.png")
     @x = 200
     @y = 200
     @width = 100
     @height = 58
-    @velocity_x = 5
-    @velocity_y = 5
+    @velocity_x = 1
+    @velocity_y = 1
     @visible = 0
     @hammer_image = Gosu::Image.new("hammer.png")
     @hit = 0
@@ -34,7 +36,7 @@ class WhackACanoe < Gosu::Window
       c = Gosu::Color::RED
     end
 
-    draw_quad(0,0,c,800,0,c,800,600,c,0,600,c)
+    draw_quad(0,0,c,WINDOW_HEIGHT,0,c,WINDOW_HEIGHT,WINDOW_WIDTH,c,0,WINDOW_WIDTH,c)
     @hit = 0
     @font.draw(@score.to_s, 700, 20, 2)
     @font.draw(@time_left.to_s, 20, 20, 2)
@@ -49,10 +51,10 @@ class WhackACanoe < Gosu::Window
     if @playing
       @x += @velocity_x
       @y += @velocity_y
-      @velocity_x *= -1 if @x + @width / 2 > 800 || @x - @width / 2 < 0
-      @velocity_y *= -1 if @y + @height / 2 > 600 || @y - @height / 2 < 0
+      @velocity_x *= -1 if @x + @width / 2 > WINDOW_HEIGHT || @x - @width / 2 < 0
+      @velocity_y *= -1 if @y + @height / 2 > WINDOW_WIDTH || @y - @height / 2 < 0
       @visible -= 1
-      @visible = 40 if @visible < -10 && rand < 0.01
+      @visible = 80 if @visible < -10 && rand < 0.01
       @time_left = (100 - ((Gosu.milliseconds  - @start_time) / 1000))
       @playing = false if @time_left < 0
     end
